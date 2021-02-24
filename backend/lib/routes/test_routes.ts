@@ -7,5 +7,8 @@ export class TestRoutes {
       app.post('/api/test', (req: Request, res: Response) => {
          res.status(200).json({message:"Post request successfull"});
       });
+      app.get('/', (req: Request, res: Response) => {
+         res.status(200).json({message: "Homepage"});
+      });
    }
 }
