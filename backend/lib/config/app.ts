@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import { TestRoutes } from "../routes/test_routes";
 class App {
@@ -17,4 +18,17 @@ class App {
    }
 }
 const app = new App().app;
+
+
+
+//mongoDB connection using mongoose
+const mongoDB = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@real-estate.kqivc.mongodb.net/real-estate?retryWrites=true&w=majority`;
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+
+let db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
 export default app;
