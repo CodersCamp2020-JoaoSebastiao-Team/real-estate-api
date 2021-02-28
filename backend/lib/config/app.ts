@@ -6,6 +6,7 @@ import environment from "../environment";
 import { TestRoutes } from "../routes/test_routes";
 import { Reservation } from "../routes/reservations";
 import { CommonRoutes } from "../routes/common_routes";
+import {Announcement} from "../routes/announcements"
 class App {
    public app: express.Application;
    //'mongodb+srv://test:test@cluster0.6z8gs.mongodb.net/Cluster0
@@ -13,6 +14,7 @@ class App {
 
    private test_routes: TestRoutes = new TestRoutes();
    private reservation: Reservation = new Reservation();
+   private announcement: Announcement = new Announcement();
    private common_routes: CommonRoutes = new CommonRoutes();
 
    constructor() {
@@ -21,7 +23,7 @@ class App {
       this.mongoSetup();
       this.test_routes.route(this.app);
       this.reservation.route(this.app);
-
+      this.announcement.route(this.app)
       this.common_routes.route(this.app);
    }
    private config(): void {
