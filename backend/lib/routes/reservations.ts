@@ -11,8 +11,16 @@ export class Reservation {
             this.reservation_controller.create_reservation(req, res);
         });
 
+        app.get('/api/reservation', (req: Request, res: Response) => {
+            this.reservation_controller.get_all_reservation(req, res);
+        });
+
         app.get('/api/reservation/:id', (req: Request, res: Response) => {
             this.reservation_controller.get_reservation(req, res);
+        });
+
+        app.get('/api/reservation/user/:id', (req: Request, res: Response) => {
+            this.reservation_controller.get_user_reservation(req, res);
         });
 
         app.put('/api/reservation/:id', (req: Request, res: Response) => {
