@@ -1,15 +1,15 @@
 import { ModificationNote } from "../common/model";
-import {AnnouncementStatus} from './enums'
+import {ListingStatus} from './enums'
 import {IReservation} from '../reservations/model'
-export interface IAnnouncement {
+export interface IListing {
     _id?: String;
     description: number;
     country: String;
     city: String;
     street: String;
     zipCode: String;
-    imagens: String[];
-    status: AnnouncementStatus;
+    images: String[];
+    status: ListingStatus;
     reservation: IReservation|null;
     modification_notes: ModificationNote[]
 }

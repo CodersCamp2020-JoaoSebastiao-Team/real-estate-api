@@ -1,6 +1,6 @@
 
-export enum AnnouncementStatus {
+export enum ListingStatus {
     reserved = 'reserved',
     rented = 'rented',
-    saled = 'saled'
+    sold = 'sold'
 }

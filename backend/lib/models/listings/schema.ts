@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { ModificationNote } from '../common/model';
-import {AnnouncementStatus} from './enums'
+import {ListingStatus} from './enums'
 
 const Schema = mongoose.Schema;
 
@@ -10,10 +10,10 @@ const schema = new Schema({
     city: String,
     street: String,
     zipCode: String,
-    imagens: [String],
+    images: [String],
     status: {
         type: String,
-        enum: AnnouncementStatus
+        enum: ListingStatus
     },
     reservation: {
        type: Schema.Types.ObjectId,
@@ -23,4 +23,4 @@ const schema = new Schema({
     modification_notes: [ModificationNote]
 });
 
-export default mongoose.model('announcements', schema);
+export default mongoose.model('listings', schema);
