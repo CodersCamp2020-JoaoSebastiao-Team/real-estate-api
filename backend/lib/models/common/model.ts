@@ -15,3 +15,21 @@ export enum response_status_codes {
     bad_request = 400,
     internal_server_error = 500
 }
+
+export enum AnnouncementStatus {
+    reserved,
+    rented,
+    saled
+}
+
+export enum PaymentStatus {
+    paid,
+    refaunded,
+    toComplete
+}
+
+export enum PaymentType {
+    cash,
+    paypal,
+    bankTransfer
+}
