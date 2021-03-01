@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { insufficientParameters, mongoError, successResponse, failureResponse } from '../models/common/service';
-import { IReservation, IUser, IAnnouncement} from '../models/reservations/model';
+import { IReservation, IUser, IAnnouncement } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import e = require('express');
 
@@ -36,12 +36,41 @@ export class ReservationController {
 
     public get_reservation(req: Request, res: Response) {
         if (req.params.id) {
-            const reservation_filter = { _id: req.params.id };
+            let reservation_filter: any = { _id: req.params.id, };
+            this.reservation_service.filterReservation(reservation_filter, (err: any, reservation_data: IReservation) => {
+                if (err || reservation_data === null) {
+                    mongoError(err, res);
+                }
+                else {
+                    successResponse('get reservation successfull from reservation id', reservation_data, res);
+                }
+            });
+        } else {
+            insufficientParameters(res);
+        }
+    }
+    public get_all_reservation(req: Request, res: Response) {
+            let reservation_filter: any = { _id: req.params.id, };
+            this.reservation_service.findAllReservations(reservation_filter);
+    }
+    public get_user_reservation(req: Request, res: Response) {
+        if (req.params.id) {
+            let reservation_filter: any = { _id: req.params.id, };
             this.reservation_service.filterReservation(reservation_filter, (err: any, reservation_data: IReservation) => {
                 if (err) {
-                    mongoError(err, res);
-                } else {
-                    successResponse('get reservation successfull', reservation_data, res);
+                    reservation_filter = {user: { $_id: req.params.id } };
+                    this.reservation_service.findReservation(reservation_filter)
+                    .then(items => {
+                        items.forEach(element => {
+                            successResponse('get reservation successfull from user id', element, res);
+                        });
+                    })
+                    .catch( err => {
+                        mongoError(err, res);
+                    });
+                }
+                else {
+                    successResponse('get reservation successfull from reservation id', reservation_data, res);
                 }
             });
         } else {
@@ -49,7 +78,7 @@ export class ReservationController {
         }
     }
     public update_reservation(req: Request, res: Response) {
-        if (req.params.id && req.body.u_id) {
+        if (req.params.id && req.body.user && req.body.announcement) {
             const reservation_filter = { _id: req.params.id };
             this.reservation_service.filterReservation(reservation_filter, (err: any, reservation_data: IReservation) => {
                 if (err) {
@@ -62,8 +91,8 @@ export class ReservationController {
                     });
                     const reservation_params: IReservation = {
                         _id: req.params.id,
-                        user: req.body.user ? req.body.user: reservation_data.user,
-                        announcement: req.body.announcement? req.body.announcement: reservation_data.announcement,
+                        user: req.body.user ? req.body.user : reservation_data.user,
+                        announcement: req.body.announcement ? req.body.announcement : reservation_data.announcement,
                         u_note: req.body.u_note ? req.body.u_note : reservation_data.u_note,
                         modification_notes: reservation_data.modification_notes
                     };

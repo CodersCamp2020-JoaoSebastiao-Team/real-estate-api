@@ -4,8 +4,8 @@ import { IUser, IAnnouncement } from '../reservations/model';
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    user: [IUser],
-    announcement: [IAnnouncement],
+    user: IUser,
+    announcement: IAnnouncement,
     modification_notes: [ModificationNote]
 });
 
