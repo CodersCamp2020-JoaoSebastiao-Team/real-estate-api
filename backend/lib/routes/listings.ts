@@ -14,6 +14,10 @@ export class Listing {
             this.reservation_controller.get_all_listings(req, res);
         });
 
+        app.get('/api/listing/available', (req: Request, res: Response) => {
+            this.reservation_controller.get_all_available_listings(req, res);
+        });
+
         app.get('/api/listing/:id', (req: Request, res: Response) => {
             this.reservation_controller.get_listing(req, res);
         });

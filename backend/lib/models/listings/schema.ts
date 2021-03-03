@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { ModificationNote } from '../common/model';
-import {ListingStatus, EstateTypes} from './enums'
+import {ListingStatus, EstateTypes, ListingStatusTypes} from './enums'
 
 const Schema = mongoose.Schema;
 
@@ -14,7 +14,10 @@ const schema = new Schema({
     status: {
         type: String,
         enum: ListingStatus,
-        required: false
+    },
+    listingStatusType: {
+        type: String,
+        enum: ListingStatusTypes
     },
     estateType: {
       type: String,

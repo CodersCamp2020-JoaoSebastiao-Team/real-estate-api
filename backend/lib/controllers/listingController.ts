@@ -21,6 +21,8 @@ export class ListingController {
                 zipCode: req.body.zipCode,
                 images: req.body.images,
                 estateType: req.body.estateType,
+                status: ListingStatus.available,
+                listingStatusType: req.body.listingStatusType,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -56,19 +58,37 @@ export class ListingController {
             insufficientParameters(res);
         }
     }
-    public get_all_listings(req: Request, res: Response) {
-        let listing_filter: any;
-        if (req.query.estateType){
-            listing_filter = { __v: 0, estateType: req.query.estateType}
-        }else{
-            listing_filter = { __v: 0,}
+    private filters(req:Request, listing_filter: any){
+        if (req.query.estateType) {
+            listing_filter = listing_filter["estateType"] = req.query.estateType
         }
-        this.listing_service.findAllListings(listing_filter, (err: any, reservation_data: IReservation) => {
-            if (err || reservation_data === null) {
+        if(req.query.listingStatusType){
+            listing_filter = listing_filter["listingStatusType"] = req.query.listingStatusType
+        }
+        return listing_filter
+    }
+    public get_all_listings(req: Request, res: Response) {
+        let listing_filter: any = { __v: 0};
+        listing_filter = this.filters(req, listing_filter);
+
+        this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
+            if (err || listing_data === null) {
                 mongoError(err, res);
             }
             else {
-                successResponse('get reservation successfull from reservation id', reservation_data, res);
+                successResponse('get reservation successfull from reservation id', listing_data, res);
+            }
+        });
+    }
+    public get_all_available_listings(req: Request, res: Response) {
+        let listing_filter: any = { __v: 0, status: 'available'};
+        listing_filter = this.filters(req, listing_filter);
+        this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
+            if (err || listing_data === null) {
+                mongoError(err, res);
+            }
+            else {
+                successResponse('get reservation successfull from reservation id', listing_data, res);
             }
         });
     }
@@ -94,6 +114,7 @@ export class ListingController {
                         zipCode: req.body.zipCode,
                         images: req.body.imagens,
                         status: req.body.status,
+                        listingStatusType: req.body.listingStatusType,
                         estateType: req.body.estateType,
                         reservation: req.body.reservation,
                         modification_notes: listing_data.modification_notes
