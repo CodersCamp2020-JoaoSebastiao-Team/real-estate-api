@@ -1,6 +1,9 @@
 import { IListing } from './model';
 import listings from './schema';
-//import reservations from '../reservations/schema'
+import reservations from "../reservations/schema";
+import {EstateTypes, ListingStatus} from "./enums";
+import {IReservation} from "../reservations/model";
+
 
 export default class ListingService {
 
@@ -12,7 +15,12 @@ export default class ListingService {
     public filterListings(query: any, callback: any) {
         listings.findOne(query, callback);
     }
-
+    public findAllListings(query: any, callback: any) {
+        listings.count({}, function(error, numOfDocs) {
+            console.log('I have '+numOfDocs+' documents in my collection');
+        });
+        listings.find(query, callback);
+    }
     public updateListing(listings_params: IListing, callback: any) {
         const query = { _id: listings_params._id };
         listings.findOneAndUpdate(query, listings_params, callback);

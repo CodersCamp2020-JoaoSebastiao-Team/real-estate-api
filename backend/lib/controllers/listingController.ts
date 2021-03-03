@@ -4,29 +4,15 @@ import { IListing } from '../models/listings/model';
 import ListingService from '../models/listings/service';
 import e = require('express');
 import {ListingStatus} from "../models/listings/enums";
+import {IReservation} from "../models/reservations/model";
 
 export class ListingController {
 
     private listing_service: ListingService = new ListingService();
 
-    public get_listings(req: Request, res: Response) {
-        if (req.params.id) {
-            const listing_filter = { _id: req.params.id };
-            this.listing_service.filterListings(listing_filter,
-                (err: any, listing_data: IListing) => {
-                if (err) {
-                    mongoError(err, res);
-                } else {
-                    successResponse('get all listings successfully', listing_data, res);
-                }
-            });
-        } else {
-            insufficientParameters(res);
-        }
-    }
     public create_listing(req: Request, res: Response) {
         // this check whether all the filds were send through the erquest or not
-        if (req.body.date) {
+        if (req.body) {
             const listing_params: IListing = {
                 description: req.body.description,
                 country: req.body.country,
@@ -34,8 +20,7 @@ export class ListingController {
                 street: req.body.street,
                 zipCode: req.body.zipCode,
                 images: req.body.images,
-                status: req.body.status,
-                reservation: null,
+                estateType: req.body.estateType,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -71,8 +56,24 @@ export class ListingController {
             insufficientParameters(res);
         }
     }
+    public get_all_listings(req: Request, res: Response) {
+        let listing_filter: any;
+        if (req.query.estateType){
+            listing_filter = { __v: 0, estateType: req.query.estateType}
+        }else{
+            listing_filter = { __v: 0,}
+        }
+        this.listing_service.findAllListings(listing_filter, (err: any, reservation_data: IReservation) => {
+            if (err || reservation_data === null) {
+                mongoError(err, res);
+            }
+            else {
+                successResponse('get reservation successfull from reservation id', reservation_data, res);
+            }
+        });
+    }
     public update_listing(req: Request, res: Response) {
-        if (req.params.id && req.body.date) {
+        if (req.params.id && req.body) {
             const listing_filter = { _id: req.params.id };
             this.listing_service.filterListings(listing_filter,
                 (err: any, listing_data: IListing) => {
@@ -93,6 +94,7 @@ export class ListingController {
                         zipCode: req.body.zipCode,
                         images: req.body.imagens,
                         status: req.body.status,
+                        estateType: req.body.estateType,
                         reservation: req.body.reservation,
                         modification_notes: listing_data.modification_notes
                     };
