@@ -1,11 +1,11 @@
 import * as mongoose from 'mongoose';
 import { ModificationNote } from '../common/model';
-import {ListingStatus} from './enums'
+import {ListingStatus, EstateTypes, ListingStatusTypes} from './enums'
 
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    description: Number,
+    description: String,
     country: String,
     city: String,
     street: String,
@@ -13,7 +13,15 @@ const schema = new Schema({
     images: [String],
     status: {
         type: String,
-        enum: ListingStatus
+        enum: ListingStatus,
+    },
+    listingStatusType: {
+        type: String,
+        enum: ListingStatusTypes
+    },
+    estateType: {
+      type: String,
+      enum: EstateTypes
     },
     reservation: {
        type: Schema.Types.ObjectId,
