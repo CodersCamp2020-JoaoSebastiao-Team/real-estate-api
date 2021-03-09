@@ -10,10 +10,9 @@ export class ReservationController {
     private reservation_service: ReservationService = new ReservationService();
 
     public async create_reservation(req: Request, res: Response) {
-        console.log("user id: ",req.body.user._id);
-         const userReservations = this.user_reservation(req, res);
-         console.log("user reservations ",userReservations);
+        const userReservations = await this.user_reservation(req, res);
         // this check whether all the filds were send through the erquest or not
+        if (userReservations < 2 && userReservations !== -1){
         if (req.body.user) {
             const reservation_params: IReservation = {
                 user: req.body.user,
@@ -35,6 +34,10 @@ export class ReservationController {
         } else {
             // error response if some fields are missing in request body
             insufficientParameters(res);
+        }
+        }
+        else{
+            failureResponse("This user have to much reservations!", userReservations, res);
         }
     }
 
@@ -72,7 +75,7 @@ export class ReservationController {
                     mongoError(err, res);
                 }
                 else {
-                    successResponse('get reservation successfull from reservation id', reservation_data , res);
+                    successResponse('get reservation successfull from reservation user id', reservation_data , res);
                 }
             });
         } else {
@@ -80,12 +83,12 @@ export class ReservationController {
         }
     }
     public async user_reservation(req: Request, res: Response) {
-        let reservation_filter: any = {"user._id": `${req.body._id}`} ;
-        let userReservations: number = 0;
+        let reservation_filter: any = {"user._id": `${req.body.user._id}`} ;
+        let userReservations: number = -1;
         await reservations.count(reservation_filter, function(error, numOfDocs) {
             userReservations = numOfDocs;
-        }).then(element => console.log("reservations length: ", userReservations));
-        
+        }).then(element => {
+        });
         return userReservations;
     }
     public update_reservation(req: Request, res: Response) {
