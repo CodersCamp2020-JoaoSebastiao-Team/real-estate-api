@@ -3,7 +3,6 @@ import { insufficientParameters, mongoError, successResponse, failureResponse } 
 import { IReservation, IUser, IAnnouncement } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
-import e = require('express');
 
 export class ReservationController {
 
