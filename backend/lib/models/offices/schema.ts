@@ -1,12 +1,13 @@
 import * as mongoose from 'mongoose';
 import { ModificationNote} from '../common/model';
-import { IUser, IAnnouncement } from '../reservations/model';
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    user: IUser,
-    announcement: IAnnouncement,
+    country: String,
+    city: String,
+    street: String,
+    zipCode: String,
     modification_notes: [ModificationNote]
 });
 
-export default mongoose.model('reservations', schema);
+export default mongoose.model('offices', schema);

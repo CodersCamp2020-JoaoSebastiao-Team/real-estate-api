@@ -5,6 +5,7 @@ import morgan from "morgan";
 import environment from "../environment";
 import { TestRoutes } from "../routes/test_routes";
 import { Reservation } from "../routes/reservations";
+import { Office } from "../routes/offices";
 import { CommonRoutes } from "../routes/common_routes";
 import {Listing} from "../routes/listings"
 class App {
@@ -14,6 +15,7 @@ class App {
 
    private test_routes: TestRoutes = new TestRoutes();
    private reservation: Reservation = new Reservation();
+   private office: Office = new Office();
    private listing: Listing = new Listing();
    private common_routes: CommonRoutes = new CommonRoutes();
 
@@ -23,6 +25,7 @@ class App {
       this.mongoSetup();
       this.test_routes.route(this.app);
       this.reservation.route(this.app);
+      this.office.route(this.app);
       this.listing.route(this.app)
       this.common_routes.route(this.app);
    }
