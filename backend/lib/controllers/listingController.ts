@@ -76,7 +76,7 @@ export class ListingController {
                 mongoError(err, res);
             }
             else {
-                successResponse('get reservation successfull from reservation id', listing_data, res);
+                successResponse('get listings successfully', listing_data, res);
             }
         });
     }
@@ -88,7 +88,7 @@ export class ListingController {
                 mongoError(err, res);
             }
             else {
-                successResponse('get reservation successfull from reservation id', listing_data, res);
+                successResponse('get available listings successfully', listing_data, res);
             }
         });
     }
