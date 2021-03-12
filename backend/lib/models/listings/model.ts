@@ -15,3 +15,12 @@ export interface IListing {
     reservation?: IReservation;
     modification_notes: ModificationNote[]
 }
+
+export const IListing = {
+    _id: String,
+    description: String,
+    country: String,
+    city: String,
+    street: String,
+    zipCode: String,
+}
