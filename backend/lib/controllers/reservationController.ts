@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { insufficientParameters, mongoError, successResponse, failureResponse } from '../models/common/service';
-import { IReservation, IUser, IAnnouncement } from '../models/reservations/model';
+import { IReservation } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
 

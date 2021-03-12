@@ -1,11 +1,12 @@
 import * as mongoose from 'mongoose';
 import { ModificationNote} from '../common/model';
-import { IUser, IAnnouncement } from '../reservations/model';
+import { IUser } from '../reservations/model';
+import { IListing } from "../listings/model"
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
     user: IUser,
-    announcement: IAnnouncement,
+    announcement: IListing,
     modification_notes: [ModificationNote]
 });
 
