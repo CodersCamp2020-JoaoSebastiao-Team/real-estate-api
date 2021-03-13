@@ -1,6 +1,8 @@
 import { Application, Request, Response } from 'express';
 import { ListingController } from '../controllers/listingController';
 
+const stripe = require('stripe')('secret key');
+
 export class Listing {
     private reservation_controller: ListingController = new ListingController();
 
@@ -28,6 +30,10 @@ export class Listing {
 
         app.delete('/api/listing/:id', (req: Request, res: Response) => {
             this.reservation_controller.delete_listing(req, res);
+        });
+
+        app.post('/api/listing/order', token({ required: true }), (req: Request, res: Response) => {
+            this.reservation_controller.createChargeStripe(req, res);
         });
 
     }
