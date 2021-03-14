@@ -59,6 +59,11 @@ const schema = new Schema({
        required: false,
        ref: 'reservations'
     },
+    user_id:{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'account'
+    },
     modification_notes: [ModificationNote]
 });
 

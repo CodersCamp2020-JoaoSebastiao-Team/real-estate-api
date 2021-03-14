@@ -14,14 +14,14 @@ export class Registration {
     public route(app: Application) {
         
         app.post('/api/register',async (req:Request, res:Response) =>{
-          this.account_controller.create_account(req, res);
+          await this.account_controller.create_account(req, res);
         });
         app.post('/api/login', async (req:Request, res:Response) =>{
-           this.account_controller.login(req,res);
+           await this.account_controller.login(req, res);
         });
 
         app.get('/api/register', verifyToken, async (req:Request, res:Response)=>{  
-           this.account_controller.getAllAccount(req,res);
+           await this.account_controller.getAllAccount(req, res);
         });
     }
 }

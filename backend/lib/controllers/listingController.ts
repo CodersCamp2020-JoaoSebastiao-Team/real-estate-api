@@ -6,13 +6,16 @@ import e = require('express');
 import {ListingStatus} from "../models/listings/enums";
 import {IReservation} from "../models/reservations/model";
 
+
+
 export class ListingController {
 
     private listing_service: ListingService = new ListingService();
 
     public create_listing(req: Request, res: Response) {
-        // this check whether all the filds were send through the erquest or not
         if (req.body) {
+            // @ts-ignore
+            let user_id = req.user
             const listing_params: IListing = {
                 description: req.body.description,
                 country: req.body.country,
@@ -23,6 +26,7 @@ export class ListingController {
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
                 listingStatusType: req.body.listingStatusType,
+                user_id: user_id,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -105,6 +109,8 @@ export class ListingController {
                         modified_by: "null",
                         modification_note: 'Listing data updated'
                     });
+                    // @ts-ignore
+                    let user_id = req.user
                     const listing_params: IListing = {
                         _id: req.params.id,
                         description: req.body.description,
@@ -117,6 +123,7 @@ export class ListingController {
                         listingStatusType: req.body.listingStatusType,
                         estateType: req.body.estateType,
                         reservation: req.body.reservation,
+                        user_id: user_id,
                         modification_notes: listing_data.modification_notes
                     };
                     this.listing_service.updateListing(listing_params, (err: any) => {

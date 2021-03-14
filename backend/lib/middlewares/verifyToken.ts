@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const jwt = require('jsonwebtoken');
 require('dotenv/config')
 
-export interface IGetUserAuthInfoRequest extends Request {
+interface IGetUserAuthInfoRequest extends Request {
     user: string // or any other type
   }
 

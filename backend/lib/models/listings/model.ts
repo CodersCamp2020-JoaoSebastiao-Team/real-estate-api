@@ -13,6 +13,7 @@ export interface IListing {
     listingStatusType: ListingStatusTypes;
     estateType: EstateTypes;
     reservation?: IReservation;
+    user_id: String;
     modification_notes: ModificationNote[]
 }
 
