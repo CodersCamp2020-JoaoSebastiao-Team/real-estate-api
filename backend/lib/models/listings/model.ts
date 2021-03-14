@@ -12,7 +12,6 @@ export interface IListing {
     status: ListingStatus;
     listingStatusType: ListingStatusTypes;
     estateType: EstateTypes;
-    reservation?: IReservation;
     author: IUser;
     modification_notes: ModificationNote[]
 }

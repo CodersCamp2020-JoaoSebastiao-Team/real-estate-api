@@ -54,10 +54,6 @@ const schema = new Schema({
       type: String,
       enum: EstateTypes
     },
-    user_id:{
-        type: String,
-        required: true
-    },
     author: {
         type: Schema.Types.ObjectId, //mongoose.Schema.ObjectId
         ref: 'account',
