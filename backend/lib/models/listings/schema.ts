@@ -55,9 +55,8 @@ const schema = new Schema({
       enum: EstateTypes
     },
     user_id:{
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'account'
+        type: String,
+        required: true
     },
     modification_notes: [ModificationNote]
 });
