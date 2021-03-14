@@ -12,7 +12,6 @@ export interface IListing {
     status: ListingStatus;
     listingStatusType: ListingStatusTypes;
     estateType: EstateTypes;
-    reservation?: IReservation;
     user_id: String;
     modification_notes: ModificationNote[]
 }
@@ -24,4 +23,18 @@ export const IListing = {
     city: String,
     street: String,
     zipCode: String,
+    images: [String],
+    status: {
+        type: String,
+        enum: ListingStatus
+    },
+
+    listingStatusType: {
+        type: String,
+        enum: ListingStatusTypes
+    },
+    estateType: {
+        type: String,
+        enum: EstateTypes
+    },
 }

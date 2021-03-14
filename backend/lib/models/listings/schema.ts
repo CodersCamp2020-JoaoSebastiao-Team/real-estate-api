@@ -54,11 +54,6 @@ const schema = new Schema({
       type: String,
       enum: EstateTypes
     },
-    reservation: {
-       type: Schema.Types.ObjectId,
-       required: false,
-       ref: 'reservations'
-    },
     user_id:{
         type: Schema.Types.ObjectId,
         required: true,

@@ -14,8 +14,6 @@ export class ListingController {
 
     public create_listing(req: Request, res: Response) {
         if (req.body) {
-            // @ts-ignore
-            let user_id = req.user
             const listing_params: IListing = {
                 description: req.body.description,
                 country: req.body.country,
@@ -26,7 +24,7 @@ export class ListingController {
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
                 listingStatusType: req.body.listingStatusType,
-                user_id: user_id,
+                user_id: req.body.user._id,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -109,8 +107,6 @@ export class ListingController {
                         modified_by: "null",
                         modification_note: 'Listing data updated'
                     });
-                    // @ts-ignore
-                    let user_id = req.user
                     const listing_params: IListing = {
                         _id: req.params.id,
                         description: req.body.description?req.body.description:listing_data.description,
@@ -122,8 +118,7 @@ export class ListingController {
                         status: req.body.status?req.body.status:listing_data.status,
                         listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,
                         estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
-                        reservation: req.body.reservation?req.body.reservation:listing_data.reservation,
-                        user_id: user_id,
+                        user_id: req.body.user._id,
                         modification_notes: listing_data.modification_notes
                     };
                     this.listing_service.updateListing(listing_params, (err: any) => {
