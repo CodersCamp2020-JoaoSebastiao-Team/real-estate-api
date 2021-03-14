@@ -23,5 +23,19 @@ export class Registration {
         app.get('/api/register', verifyToken, async (req:Request, res:Response)=>{  
            await this.account_controller.getAllAccount(req, res);
         });
+
+        app.post('/api/forgot',  async (req:Request, res:Response)=>{  
+          this.account_controller.forgotPassword(req,res); 
+        });
+
+        app.get('/api/reset/:token', async (req:Request, res:Response)=>{  
+          this.account_controller.resetPassword(req,res);
+        });
+
+        app.post('/api/reset/:token', this.account_controller.confirmedPassword,  async (req:Request, res:Response)=>{  
+          this.account_controller.updatePassword(req,res);
+        });
+
+
     }
 }

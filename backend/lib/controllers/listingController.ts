@@ -4,7 +4,11 @@ import { IListing } from '../models/listings/model';
 import ListingService from '../models/listings/service';
 import e = require('express');
 import {ListingStatus} from "../models/listings/enums";
-import {IReservation} from "../models/reservations/model";
+import accountSchema from '../models/account/schema';
+import * as User from '../models/account/schema'
+import { Listing } from '../routes/listings';
+import { Admin } from '../routes/admin';
+import { IUser } from '../models/reservations/model';
 
 
 
@@ -24,7 +28,7 @@ export class ListingController {
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
                 listingStatusType: req.body.listingStatusType,
-                user_id: req.body.user._id,
+                author: req.body.user, //TO MA TU BYC? TAK
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -94,6 +98,7 @@ export class ListingController {
             }
         });
     }
+
     public update_listing(req: Request, res: Response) {
         if (req.params.id && req.body) {
             const listing_filter = { _id: req.params.id };
@@ -118,7 +123,7 @@ export class ListingController {
                         status: req.body.status?req.body.status:listing_data.status,
                         listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,
                         estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
-                        user_id: req.body.user._id,
+                        author: req.body.user,
                         modification_notes: listing_data.modification_notes
                     };
                     this.listing_service.updateListing(listing_params, (err: any) => {

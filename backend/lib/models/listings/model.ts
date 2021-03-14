@@ -1,6 +1,6 @@
 import { ModificationNote } from "../common/model";
 import {ListingStatus, EstateTypes, ListingStatusTypes} from './enums'
-import {IReservation} from '../reservations/model'
+import {IReservation, IUser} from '../reservations/model'
 export interface IListing {
     _id?: String;
     description: String;
@@ -12,7 +12,8 @@ export interface IListing {
     status: ListingStatus;
     listingStatusType: ListingStatusTypes;
     estateType: EstateTypes;
-    user_id: String;
+    reservation?: IReservation;
+    author: IUser;
     modification_notes: ModificationNote[]
 }
 

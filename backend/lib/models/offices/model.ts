@@ -1,4 +1,4 @@
-import { ModificationNote, AnnouncementStatus } from "../common/model";
+import { ModificationNote } from "../common/model";
 export interface IOffice {
     _id?: String;
     country: String;
