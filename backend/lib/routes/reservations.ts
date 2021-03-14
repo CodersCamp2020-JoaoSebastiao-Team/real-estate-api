@@ -31,5 +31,9 @@ export class Reservation {
             this.reservation_controller.delete_reservation(req, res);
         });
 
+        app.post('/api/reservation/:id/payment', (req: Request, res: Response) => {
+            this.reservation_controller.reservation_payment(req, res);
+        });
+
     }
 }
