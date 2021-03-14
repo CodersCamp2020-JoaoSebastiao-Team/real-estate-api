@@ -113,16 +113,16 @@ export class ListingController {
                     let user_id = req.user
                     const listing_params: IListing = {
                         _id: req.params.id,
-                        description: req.body.description,
-                        country: req.body.country,
-                        city: req.body.city,
-                        street: req.body.street,
-                        zipCode: req.body.zipCode,
-                        images: req.body.imagens,
-                        status: req.body.status,
-                        listingStatusType: req.body.listingStatusType,
-                        estateType: req.body.estateType,
-                        reservation: req.body.reservation,
+                        description: req.body.description?req.body.description:listing_data.description,
+                        country: req.body.country?req.body.country:listing_data.country,
+                        city: req.body.city?req.body.city:listing_data.city,
+                        street: req.body.street?req.body.street:listing_data.street,
+                        zipCode: req.body.zipCode?req.body.zipCode:listing_data.zipCode,
+                        images: req.body.images?req.body.imagens:listing_data.images,
+                        status: req.body.status?req.body.status:listing_data.status,
+                        listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,
+                        estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
+                        reservation: req.body.reservation?req.body.reservation:listing_data.reservation,
                         user_id: user_id,
                         modification_notes: listing_data.modification_notes
                     };
