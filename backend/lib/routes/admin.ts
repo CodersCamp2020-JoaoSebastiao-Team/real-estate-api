@@ -3,7 +3,7 @@ import { AdminController } from '../controllers/adminController';
 
 const { body } = require('express-validator/check');
 
-const isAuth = require('../middleware/is-auth');
+const isAuth = require('../middleware/is-auth'); //do zrobienia
 
 export class Admin {
     private admin_controller: AdminController = new AdminController();
