@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import validator from 'validator';
 
 const Schema = mongoose.Schema;
 
@@ -8,7 +9,7 @@ const accountSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        //validate: [validator.isEmail, 'Invalid Email Address'],
+        validate: [validator.isEmail, 'Invalid Email Address'],
         required: 'Please Supply an email address'
     },
     name: {
@@ -21,4 +22,4 @@ const accountSchema = new Schema({
     password: String
 });
 
-export default mongoose.model('account', accountSchema);
+export default mongoose.model('account', accountSchema); //account = user?

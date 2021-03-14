@@ -59,6 +59,11 @@ const schema = new Schema({
        required: false,
        ref: 'reservations'
     },
+    author: {
+        type: Schema.Types.ObjectId, //mongoose.Schema.ObjectId
+        ref: 'account',
+        required: 'you must supply an author'
+    },
     modification_notes: [ModificationNote]
 });
 

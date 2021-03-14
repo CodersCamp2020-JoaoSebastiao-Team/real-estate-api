@@ -64,6 +64,7 @@ export class AccountController {
 
     public async getAllAccount(req: Request, res: Response){
         const users = await accountSchema.find();
+        
         res.send(users);
     }
 
