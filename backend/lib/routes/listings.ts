@@ -1,14 +1,17 @@
 import { Application, Request, Response } from 'express';
 import { ListingController } from '../controllers/listingController';
-const verify = require('../middlewares/verifyToken')
+const isLoggedIn = require('../middlewares/verifyToken');
+const isAuthor = require('../middlewares/verifyTokenOwner');
 
+
+const stripe = require('stripe')('secret key');
 
 export class Listing {
     private reservation_controller: ListingController = new ListingController();
 
     public route(app: Application) {
 
-        app.post('/api/listing', verify,  (req: Request, res: Response) => {
+        app.post('/api/listing', isLoggedIn,  (req: Request, res: Response) => {
             this.reservation_controller.create_listing(req, res);
         });
 
@@ -24,12 +27,16 @@ export class Listing {
             this.reservation_controller.get_listing(req, res);
         });
 
-        app.put('/api/listing/:id', verify, (req: Request, res: Response) => {
+        app.put('/api/listing/:id', isAuthor, (req: Request, res: Response) => {
             this.reservation_controller.update_listing(req, res);
         });
 
-        app.delete('/api/listing/:id', verify, (req: Request, res: Response) => {
+        app.delete('/api/listing/:id', isAuthor, (req: Request, res: Response) => {
             this.reservation_controller.delete_listing(req, res);
+        });
+
+        app.post('/api/listing/order', isLoggedIn, token({ required: true }), (req: Request, res: Response) => {
+            this.reservation_controller.createChargeStripe(req, res);
         });
 
     }

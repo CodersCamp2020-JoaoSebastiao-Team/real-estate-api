@@ -3,6 +3,8 @@ import { insufficientParameters, mongoError, successResponse, failureResponse } 
 import { IReservation } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
+import { IListing } from "../listings/model"
+import {ListingStatus} from "../models/listings/enums";
 
 export class ReservationController {
 
@@ -15,7 +17,7 @@ export class ReservationController {
         if (req.body.user) {
             const reservation_params: IReservation = {
                 user: req.body.user,
-                announcement: req.body.announcement,
+                announcement: {...req.body.announcement, status: ListingStatus.rented},
                 u_note: req.body.u_note,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),

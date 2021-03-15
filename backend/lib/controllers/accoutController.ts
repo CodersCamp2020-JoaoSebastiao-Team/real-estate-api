@@ -24,7 +24,7 @@ export class AccountController {
   
         const account = new accountSchema({
             name: req.body.name,
-            surmane: req.body.surname,
+            surname: req.body.surname,
             username: req.body.username,
             userType: req.body.userType,
             email: req.body.email,
@@ -33,7 +33,7 @@ export class AccountController {
 
          const user = new userSchema({
             name: req.body.name,
-            surmane: req.body.surname
+            surname: req.body.surname
          })
 
          try{
@@ -93,7 +93,7 @@ export class AccountController {
         //set reset tokens and  expiry on their account
         user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
         user.resetPasswordExpires = Date.now() + 18000; // valid for 30mins
-        //await accountSchema.save();
+        await user.save();
         //send the email with the token
         const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
         await mail.send({
@@ -151,17 +151,13 @@ export class AccountController {
 
         await updatedAccount.save();
         res.send(updatedAccount);
-
-        //await req.login(updatedAccount, );
         //req.flash('success', 'Your password has been updated! You are logged in now.');
         res.redirect('/');
 
     }
 }
 
-
 function createToken(user: any){
-    console.log('fdfdfdf')
     if(user.userType==UserType.custom){
         return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET");
     }

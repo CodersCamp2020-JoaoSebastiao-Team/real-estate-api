@@ -1,6 +1,9 @@
 import * as mongoose from 'mongoose';
 import validator from 'validator';
 import {UserType} from './userType';
+import { IOffice } from '../offices/model';
+import { Office } from '../../routes/offices';
+
 
 
 const Schema = mongoose.Schema;
@@ -11,7 +14,7 @@ const accountSchema = new Schema({
         required: 'Please supply a name',
         trim: true
     },
-    surmane: String,
+    surname: String,
     username: String, 
     userType: {
         type: UserType
@@ -23,6 +26,10 @@ const accountSchema = new Schema({
         trim: true,
         validate: [validator.isEmail, 'Invalid Email Address'],
         required: 'Please Supply an email address'
+    },
+    office: {
+        default: undefined,
+        type: Office,
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
