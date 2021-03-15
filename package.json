@@ -37,10 +37,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose-mongodb-errors": "0.0.2",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.5.0",
-    "passport": "^0.4.1",
     "stripe": "^8.138.0",
     "tslib": "^2.1.0",
+    "nodemailer": "^6.5.0",
+    "passport": "^0.4.1",
     "validator": "^13.5.2"
   },
   "devDependencies": {

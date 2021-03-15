@@ -3,8 +3,15 @@ import { insufficientParameters, mongoError, successResponse, failureResponse } 
 import { IReservation } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
+import { plugin } from 'mongoose';
 import { IListing } from "../listings/model"
 import {ListingStatus} from "../models/listings/enums";
+
+// const express = require("express");
+const stripe = require("stripe");("pk_test_51IUe0UAMDg1n7U3x7NXgne0hMxmdSKfiy7XFSbIH2VD9wXvRsNV02e1zioGpXzqeaG7tU4pCN8gBl2cYVebSPvvY00WS86PeEf");
+const uuid = require("uuid/v4");
+
+
 
 export class ReservationController {
 
@@ -141,5 +148,26 @@ export class ReservationController {
         } else {
             insufficientParameters(res);
         }
+    }
+
+    public reservation_payment(req: Request, res: Response) {
+        const {reservation, token} = req.body
+        console.log("RESERVATION", reservation);
+        console.log("PRICE", reservation.price);
+        const idempotencyKey = uuid();
+
+        return stripe.customers.create({
+            email: token.email,
+            source: token.id
+        }).then(customer => {
+            stripe.charges.create({
+                amount: reservation.price,
+                currency: 'pln',
+                customer: customer.id,
+                receipt_email: token.email,
+                description: `Purchase of ${reservation.IListing.description}`
+            }, {idempotencyKey})
+        }).then(result => res.status(200).json(result))
+        .try(err => console.log(err))
     }
 }
