@@ -161,6 +161,7 @@ export class AccountController {
 
 
 function createToken(user: any){
+    console.log('fdfdfdf')
     if(user.userType==UserType.custom){
         return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET");
     }

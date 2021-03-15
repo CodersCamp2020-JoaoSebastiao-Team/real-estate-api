@@ -5,8 +5,8 @@ import {AccountController} from '../controllers/accoutController';
 const bcrypt: any = require('bcryptjs');
 const jwt: any = require('jsonwebtoken');
 const verifyToken = require('../middlewares/verifyToken');
-
-
+const verifyTokenOwner = require('../middlewares/verifyTokenOwner');
+const verifyTokenEmployee = require('../middlewares/verufyTokenEmployee');
 
 export class Registration {
     private account_controller: AccountController = new AccountController();
@@ -20,7 +20,7 @@ export class Registration {
            await this.account_controller.login(req, res);
         });
 
-        app.get('/api/all', verifyToken, async (req:Request, res:Response)=>{  
+        app.get('/api/all', verifyTokenEmployee, async (req:Request, res:Response)=>{  
            await this.account_controller.getAllAccount(req, res);
         });
 
@@ -35,7 +35,5 @@ export class Registration {
         app.post('/api/reset/:token', this.account_controller.confirmedPassword,  async (req:Request, res:Response)=>{  
           this.account_controller.updatePassword(req,res);
         });
-
-
     }
 }
