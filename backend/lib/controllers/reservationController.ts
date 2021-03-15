@@ -4,12 +4,14 @@ import { IReservation } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
 import { plugin } from 'mongoose';
-import { IListing } from "../listings/model"
+// import { IListing } from "../listings/model"
+import {IListing} from "../models/listings/model";
 import {ListingStatus} from "../models/listings/enums";
 
 // const express = require("express");
 const stripe = require("stripe");("pk_test_51IUe0UAMDg1n7U3x7NXgne0hMxmdSKfiy7XFSbIH2VD9wXvRsNV02e1zioGpXzqeaG7tU4pCN8gBl2cYVebSPvvY00WS86PeEf");
-const uuid = require("uuid/v4");
+// const uuid = require("uuid/v4");
+import { uuid } from 'uuidv4';
 
 
 
@@ -159,7 +161,7 @@ export class ReservationController {
         return stripe.customers.create({
             email: token.email,
             source: token.id
-        }).then(customer => {
+        }).then((customer:any) => {
             stripe.charges.create({
                 amount: reservation.price,
                 currency: 'pln',
@@ -167,7 +169,7 @@ export class ReservationController {
                 receipt_email: token.email,
                 description: `Purchase of ${reservation.IListing.description}`
             }, {idempotencyKey})
-        }).then(result => res.status(200).json(result))
-        .try(err => console.log(err))
+        }).then((result:any) => res.status(200).json(result))
+        .try((err:any) => console.log(err))
     }
 }

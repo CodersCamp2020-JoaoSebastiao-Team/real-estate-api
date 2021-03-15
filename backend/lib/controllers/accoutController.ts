@@ -69,12 +69,25 @@ export class AccountController {
               return res.status(400).send('Password is wrong');
          }
 
+        
+         const otherToken: any= createToken(user,res);
 
-         const token: any = createToken(user);
-        //  const token: any = jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET");
-       
-         res.header('jwt',token)
-         res.send(token);
+
+         const token: any = jwt.sign({_id:user._id, UserType:user.userType}, "process.env.TOKEN_SECRET");
+
+         
+         if(otherToken){
+            res.header('jwt',token);
+            res.header('jwt2',otherToken);
+            res.send({
+                "jwt":token,
+                "jwt2":otherToken
+            })
+         }
+         else{
+            res.header('jwt',token)
+            res.send(token);
+         }
          res.status(200).send("success");
         }    
     }
@@ -157,12 +170,13 @@ export class AccountController {
     }
 }
 
-function createToken(user: any){
-    if(user.userType==UserType.custom){
-        return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET");
+
+function createToken(user: any, res: Response){
+    if(user.userType==UserType.employee){
+        return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET_EMPLOYEE");
     }
     else if(user.userType==UserType.owner){
         return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET_OWNER");
     }
-    return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET_EMPLOYEE");
+    return null;
 }

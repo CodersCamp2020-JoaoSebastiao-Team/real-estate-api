@@ -21,15 +21,11 @@ const accountSchema = new Schema({
     },
     email: {
         type:String,
-        unique: true,
+        unique: true, 
         lowercase: true,
         trim: true,
         validate: [validator.isEmail, 'Invalid Email Address'],
         required: 'Please Supply an email address'
-    },
-    office: {
-        default: undefined,
-        type: Office,
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,

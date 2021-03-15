@@ -43,8 +43,8 @@ class App {
       this.app.use(bodyParser.json());
       //support application/x-www-form-urlencoded post data
       this.app.use(bodyParser.urlencoded({ extended: false }));
-      app.use(express.json());
-      app.use(cors());
+      this.app.use(express.json());
+      this.app.use(cors());
    }
    private mongoSetup(): void {
       mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
