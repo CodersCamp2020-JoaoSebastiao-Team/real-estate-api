@@ -54,10 +54,10 @@ const schema = new Schema({
       type: String,
       enum: EstateTypes
     },
-    reservation: {
-       type: Schema.Types.ObjectId,
-       required: false,
-       ref: 'reservations'
+    author: {
+        type: Schema.Types.ObjectId, //mongoose.Schema.ObjectId
+        ref: 'account',
+        required: 'you must supply an author'
     },
     modification_notes: [ModificationNote]
 });

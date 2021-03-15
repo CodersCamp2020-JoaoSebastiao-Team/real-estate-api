@@ -3,10 +3,11 @@ import accountSchema from '../models/account/schema';
 import crypto from 'crypto';
 import passport from 'passport';
 import { nextTick } from 'node:process';
-
+import userSchema from '../models/account/userSchema';
 const bcrypt: any = require('bcryptjs');
 const jwt: any = require('jsonwebtoken');
 const mail:any = require('../handlers/mail');
+import {UserType} from '../models/account/userType';
 
 
 export class AccountController {
@@ -22,13 +23,27 @@ export class AccountController {
     
   
         const account = new accountSchema({
+            name: req.body.name,
+            surmane: req.body.surname,
             username: req.body.username,
+            userType: req.body.userType,
             email: req.body.email,
             password: hashedPassword
          })
+
+         const user = new userSchema({
+            name: req.body.name,
+            surmane: req.body.surname
+         })
+
          try{
             const savedAccount = await account.save();
-            res.send(savedAccount);
+            const savedUser = await user.save();
+            savedUser._id = savedAccount._id;
+            res.send({
+                'savedAccount':savedAccount,
+                'savedUser':savedUser
+            }) 
         }catch(err){
             res.status(400).send("errrrror "+err);
         }
@@ -48,13 +63,15 @@ export class AccountController {
          if(!user){
              return res.status(404).send({"error":"user doesn't exist"});
          }
-       
+         
          const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
          if(!isPasswordCorrect){
               return res.status(400).send('Password is wrong');
          }
 
-         const token: any = jwt.sign({_id:user._id},"process.env.TOKEN_SECRET");
+
+         const token: any = createToken(user);
+        //  const token: any = jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET");
        
          res.header('jwt',token)
          res.send(token);
@@ -66,7 +83,6 @@ export class AccountController {
         const users = await accountSchema.find();
         res.send(users);
     }
-
     public async forgotPassword(req: Request, res: Response){
         //check if user exists
         const user:any = await accountSchema.findOne( {email: req.body.email} );
@@ -141,4 +157,16 @@ export class AccountController {
         res.redirect('/');
 
     }
+}
+
+
+function createToken(user: any){
+    console.log('fdfdfdf')
+    if(user.userType==UserType.custom){
+        return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET");
+    }
+    else if(user.userType==UserType.owner){
+        return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET_OWNER");
+    }
+    return jwt.sign({_id:user._id}, "process.env.TOKEN_SECRET_EMPLOYEE");
 }
