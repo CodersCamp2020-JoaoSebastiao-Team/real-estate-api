@@ -20,7 +20,7 @@ export class Registration {
            await this.account_controller.login(req, res);
         });
 
-        app.get('/api/register', verifyToken, async (req:Request, res:Response)=>{  
+        app.get('/api/all', verifyToken, async (req:Request, res:Response)=>{  
            await this.account_controller.getAllAccount(req, res);
         });
 

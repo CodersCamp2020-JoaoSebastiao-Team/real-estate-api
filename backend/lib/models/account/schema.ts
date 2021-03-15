@@ -1,9 +1,21 @@
 import * as mongoose from 'mongoose';
 import validator from 'validator';
+import {UserType} from './userType';
+
 
 const Schema = mongoose.Schema;
 
 const accountSchema = new Schema({
+    name: {
+        type: String,
+        required: 'Please supply a name',
+        trim: true
+    },
+    surmane: String,
+    username: String, 
+    userType: {
+        type: UserType
+    },
     email: {
         type:String,
         unique: true,
@@ -11,11 +23,6 @@ const accountSchema = new Schema({
         trim: true,
         validate: [validator.isEmail, 'Invalid Email Address'],
         required: 'Please Supply an email address'
-    },
-    name: {
-        type: String,
-        required: 'Please supply a name',
-        trim: true
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
