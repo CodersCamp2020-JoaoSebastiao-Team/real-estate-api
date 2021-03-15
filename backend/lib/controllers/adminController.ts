@@ -4,16 +4,17 @@ import { IListing } from '../models/listings/model';
 import ListingService from '../models/listings/service';
 import e = require('express');
 import {ListingStatus} from "../models/listings/enums";
-import accountSchema from '../models/account/schema';
-import * as User from '../models/account/schema'
-import { Listing } from '../routes/listings';
-import { Admin } from '../routes/admin';
-import { IUser } from '../models/reservations/model';
+
+import * as mail from '../handlers/mail';
+import {UserType} from '../models/account/userType';
+
+const bcrypt: any = require('bcryptjs');
+const jwt: any = require('jsonwebtoken');
+//const mail:any = require('../handlers/mail');
 
 
-
-export class ListingController {
-
+export class AdminController { 
+    
     private listing_service: ListingService = new ListingService();
 
     public create_listing(req: Request, res: Response) {
@@ -28,7 +29,7 @@ export class ListingController {
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
                 listingStatusType: req.body.listingStatusType,
-                author: req.body.user, //TO MA TU BYC? TAK
+                author: req.body.user, 
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -71,8 +72,12 @@ export class ListingController {
         if(req.query.listingStatusType){
             listing_filter = listing_filter["listingStatusType"] = req.query.listingStatusType
         }
+        if(req.query.city){
+            listing_filter = listing_filter["city"] = req.query.city
+        }
         return listing_filter
     }
+
     public get_all_listings(req: Request, res: Response) {
         let listing_filter: any = { __v: 0};
         listing_filter = this.filters(req, listing_filter);
@@ -82,7 +87,7 @@ export class ListingController {
                 mongoError(err, res);
             }
             else {
-                successResponse('get listings successfully', listing_data, res);
+                successResponse('got listings successfully', listing_data, res);
             }
         });
     }
@@ -157,4 +162,4 @@ export class ListingController {
             insufficientParameters(res);
         }
     }
-}
+}       

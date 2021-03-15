@@ -4,10 +4,13 @@ import { IReservation } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
 import { plugin } from 'mongoose';
+import { IListing } from "../listings/model"
+import {ListingStatus} from "../models/listings/enums";
 
 // const express = require("express");
 const stripe = require("stripe");("pk_test_51IUe0UAMDg1n7U3x7NXgne0hMxmdSKfiy7XFSbIH2VD9wXvRsNV02e1zioGpXzqeaG7tU4pCN8gBl2cYVebSPvvY00WS86PeEf");
 const uuid = require("uuid/v4");
+
 
 
 export class ReservationController {
@@ -21,7 +24,7 @@ export class ReservationController {
         if (req.body.user) {
             const reservation_params: IReservation = {
                 user: req.body.user,
-                announcement: req.body.announcement,
+                announcement: {...req.body.announcement, status: ListingStatus.rented},
                 u_note: req.body.u_note,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
