@@ -1,0 +1,1 @@
+web: node dist/backend/lib/server.js
