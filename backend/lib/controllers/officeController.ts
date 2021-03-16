@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { insufficientParameters, mongoError, successResponse, failureResponse } from '../models/common/service';
 import { IOffice } from '../models/offices/model';
 import OfficeService from '../models/offices/service';
-import offices from '../models/offices/schema';
 
 export class OfficeController {
 

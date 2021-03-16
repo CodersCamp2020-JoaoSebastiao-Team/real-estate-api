@@ -28,7 +28,7 @@ export class ListingController {
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
                 listingStatusType: req.body.listingStatusType,
-                author: req.body.user, //TO MA TU BYC? TAK
+                author: req.body.user, 
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",

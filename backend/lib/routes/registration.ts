@@ -6,7 +6,7 @@ const bcrypt: any = require('bcryptjs');
 const jwt: any = require('jsonwebtoken');
 const verifyToken = require('../middlewares/verifyToken');
 const verifyTokenOwner = require('../middlewares/verifyTokenOwner');
-const verifyTokenEmployee = require('../middlewares/verufyTokenEmployee');
+const verifyTokenEmployee = require('../middlewares/verifyTokenEmployee');
 
 export class Registration {
     private account_controller: AccountController = new AccountController();
