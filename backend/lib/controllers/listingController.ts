@@ -66,10 +66,22 @@ export class ListingController {
     }
     private filters(req:Request, listing_filter: any){
         if (req.query.estateType) {
-            listing_filter = listing_filter["estateType"] = req.query.estateType
+            listing_filter["estateType"] = req.query.estateType
         }
         if(req.query.listingStatusType){
-            listing_filter = listing_filter["listingStatusType"] = req.query.listingStatusType
+            listing_filter["listingStatusType"] = req.query.listingStatusType
+        }
+        if(req.query.listingStatusType){
+            listing_filter["status"] = req.query.status
+        }
+        if(req.query.listingStatusType){
+            listing_filter["street"] = req.query.street
+        }
+        if(req.query.listingStatusType){
+            listing_filter["city"] = req.query.city
+        }
+        if(req.query.listingStatusType){
+            listing_filter["country"] = req.query.country
         }
         return listing_filter
     }

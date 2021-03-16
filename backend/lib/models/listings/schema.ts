@@ -48,11 +48,13 @@ const schema = new Schema({
     },
     listingStatusType: {
         type: String,
-        enum: ListingStatusTypes
+        enum: ListingStatusTypes,
+        required: true
     },
     estateType: {
       type: String,
-      enum: EstateTypes
+      enum: EstateTypes,
+      required: true
     },
     author: {
         type: Schema.Types.ObjectId, //mongoose.Schema.ObjectId
