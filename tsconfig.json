@@ -9,7 +9,7 @@
        "pretty": true,
        "target": "es6",
        "outDir": "./dist",
-       "baseUrl": "./lib"
+       "baseUrl": "./"
     },
     "exclude": [
       "node_modules"

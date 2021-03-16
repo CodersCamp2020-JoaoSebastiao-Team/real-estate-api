@@ -97,7 +97,7 @@ export class ReservationController {
         let userReservations: number = -1;
         await reservations.count(reservation_filter, function(error, numOfDocs) {
             userReservations = numOfDocs;
-        }).then(element => {
+        }).then(() => {
         });
         return userReservations;
     }

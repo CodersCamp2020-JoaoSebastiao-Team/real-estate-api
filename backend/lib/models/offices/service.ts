@@ -21,7 +21,7 @@ export default class OfficeService {
         var userOffices: number = 0;
         offices.count(query, function(error, numOfDocs) {
             userOffices = numOfDocs;
-        }).then(element =>{
+        }).then(() =>{
         offices.find(query, callback);
         return userOffices;
         });
