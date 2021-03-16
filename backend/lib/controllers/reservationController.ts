@@ -1,23 +1,32 @@
 import { Request, Response } from 'express';
 import { insufficientParameters, mongoError, successResponse, failureResponse } from '../models/common/service';
-import { IReservation, IUser, IAnnouncement } from '../models/reservations/model';
+import { IReservation } from '../models/reservations/model';
 import ReservationService from '../models/reservations/service';
 import reservations from '../models/reservations/schema';
-import e = require('express');
+import { plugin } from 'mongoose';
+// import { IListing } from "../listings/model"
+import {IListing} from "../models/listings/model";
+import {ListingStatus} from "../models/listings/enums";
+
+// const express = require("express");
+const stripe = require("stripe");("pk_test_51IUe0UAMDg1n7U3x7NXgne0hMxmdSKfiy7XFSbIH2VD9wXvRsNV02e1zioGpXzqeaG7tU4pCN8gBl2cYVebSPvvY00WS86PeEf");
+// const uuid = require("uuid/v4");
+import { uuid } from 'uuidv4';
+
+
 
 export class ReservationController {
 
     private reservation_service: ReservationService = new ReservationService();
 
     public async create_reservation(req: Request, res: Response) {
-        console.log("user id: ",req.body.user._id);
-         const userReservations = this.user_reservation(req, res);
-         console.log("user reservations ",userReservations);
+        const userReservations = await this.user_reservation(req, res);
         // this check whether all the filds were send through the erquest or not
+        if (userReservations < 2 && userReservations !== -1){
         if (req.body.user) {
             const reservation_params: IReservation = {
                 user: req.body.user,
-                announcement: req.body.announcement,
+                announcement: {...req.body.announcement, status: ListingStatus.rented},
                 u_note: req.body.u_note,
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
@@ -35,6 +44,10 @@ export class ReservationController {
         } else {
             // error response if some fields are missing in request body
             insufficientParameters(res);
+        }
+        }
+        else{
+            failureResponse("This user have to much reservations!", userReservations, res);
         }
     }
 
@@ -72,7 +85,7 @@ export class ReservationController {
                     mongoError(err, res);
                 }
                 else {
-                    successResponse('get reservation successfull from reservation id', reservation_data , res);
+                    successResponse('get reservation successfull from reservation user id', reservation_data , res);
                 }
             });
         } else {
@@ -80,12 +93,12 @@ export class ReservationController {
         }
     }
     public async user_reservation(req: Request, res: Response) {
-        let reservation_filter: any = {"user._id": `${req.body._id}`} ;
-        let userReservations: number = 0;
+        let reservation_filter: any = {"user._id": `${req.body.user._id}`} ;
+        let userReservations: number = -1;
         await reservations.count(reservation_filter, function(error, numOfDocs) {
             userReservations = numOfDocs;
-        }).then(element => console.log("reservations length: ", userReservations));
-        
+        }).then(element => {
+        });
         return userReservations;
     }
     public update_reservation(req: Request, res: Response) {
@@ -137,5 +150,26 @@ export class ReservationController {
         } else {
             insufficientParameters(res);
         }
+    }
+
+    public reservation_payment(req: Request, res: Response) {
+        const {reservation, token} = req.body
+        console.log("RESERVATION", reservation);
+        console.log("PRICE", reservation.price);
+        const idempotencyKey = uuid();
+
+        return stripe.customers.create({
+            email: token.email,
+            source: token.id
+        }).then((customer:any) => {
+            stripe.charges.create({
+                amount: reservation.price,
+                currency: 'pln',
+                customer: customer.id,
+                receipt_email: token.email,
+                description: `Purchase of ${reservation.IListing.description}`
+            }, {idempotencyKey})
+        }).then((result:any) => res.status(200).json(result))
+        .try((err:any) => console.log(err))
     }
 }
