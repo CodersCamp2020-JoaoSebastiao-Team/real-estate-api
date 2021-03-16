@@ -9,7 +9,7 @@ export class Listing {
 
     public route(app: Application) {
 
-        app.post('/api/listing', isLoggedIn,  (req: Request, res: Response) => {
+        app.post('/api/listing', isAuthor,  (req: Request, res: Response) => {
             this.listing_controller.create_listing(req, res);
         });
 
