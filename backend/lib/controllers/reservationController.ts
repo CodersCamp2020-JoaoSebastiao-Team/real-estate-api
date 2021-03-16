@@ -9,7 +9,7 @@ import {IListing} from "../models/listings/model";
 import {ListingStatus} from "../models/listings/enums";
 
 // const express = require("express");
-const stripe = require("stripe");("pk_test_51IUe0UAMDg1n7U3x7NXgne0hMxmdSKfiy7XFSbIH2VD9wXvRsNV02e1zioGpXzqeaG7tU4pCN8gBl2cYVebSPvvY00WS86PeEf");
+const stripe = require("stripe");("");
 // const uuid = require("uuid/v4");
 import { uuid } from 'uuidv4';
 

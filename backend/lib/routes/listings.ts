@@ -35,6 +35,10 @@ export class Listing {
             this.reservation_controller.delete_listing(req, res);
         });
 
+        app.post('/api/listing/order', isLoggedIn, (req: Request, res: Response) => {
+            this.reservation_controller.listing_payment(req, res);
+        });
+
         // app.post('/api/listing/order', isLoggedIn, token({ required: true }), (req: Request, res: Response) => {
         //     this.reservation_controller.createChargeStripe(req, res);
         // });
