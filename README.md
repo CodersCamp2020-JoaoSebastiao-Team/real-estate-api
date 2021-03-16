@@ -38,9 +38,9 @@ Celem projektu było przygotowanie zaplecza pod internetową platformę do handl
 Zadaniem projektu była realizacja wymagań klienta, z którym konsultowane były wprowadzane funkcjonalności.
 
 ### Wykorzystywane technologie
--Node JS
--TypeScript
--MongoDB   
+- Node JS
+- TypeScript
+- MongoDB   
 
 #### W projekcie każdy z uczestników zaprezentował praktyczną znajomość poniższych zagadnień związanych z TypeScript:
 - REST API
