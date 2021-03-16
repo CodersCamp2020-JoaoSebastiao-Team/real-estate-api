@@ -25,9 +25,11 @@ Celem projektu było dostarczenie internetowej platformy do handlu nieruchomośc
 
 ### Lista funkcjonalności aplikacji
 1.Rejestracja oraz logowanie (weryfikacja uprawnień).
-2.Dodawanie i przeglądanie istniejących ogłoszeń.
-3.Tworzenie rezerwacji. (maksymalna liczba dla danego użytkownika 2)
-4. Wprowadzenie informacji o placówkach w sieci Biur. Sieć posiada Biura w różnych miastach na całym świecie.
+2.Tworzenie trzech różnych typów kont: dla sprzedających, kupujących oraz pracowników.
+3.Dodawanie i przeglądanie istniejących ogłoszeń.
+4.Tworzenie rezerwacji. (maksymalna liczba dla danego użytkownika 2).
+5. Wprowadzenie informacji o placówkach w sieci Biur. Sieć posiada Biura w różnych miastach na całym świecie.
+6. Zakup rezerwacji z możliwością zapłaty online.
 
 Zadaniem projektu była realizacja wymagań klienta, z którym konsultowane były wprowadzane funkcjonalności.
 
