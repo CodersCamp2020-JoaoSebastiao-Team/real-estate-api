@@ -71,16 +71,16 @@ export class ListingController {
         if(req.query.listingStatusType){
             listing_filter["listingStatusType"] = req.query.listingStatusType
         }
-        if(req.query.listingStatusType){
+        if(req.query.status){
             listing_filter["status"] = req.query.status
         }
-        if(req.query.listingStatusType){
+        if(req.query.street){
             listing_filter["street"] = req.query.street
         }
-        if(req.query.listingStatusType){
+        if(req.query.city){
             listing_filter["city"] = req.query.city
         }
-        if(req.query.listingStatusType){
+        if(req.query.country){
             listing_filter["country"] = req.query.country
         }
         return listing_filter
@@ -88,7 +88,7 @@ export class ListingController {
     public get_all_listings(req: Request, res: Response) {
         let listing_filter: any = { __v: 0};
         listing_filter = this.filters(req, listing_filter);
-
+        console.log(listing_filter)
         this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
             if (err || listing_data === null) {
                 mongoError(err, res);
