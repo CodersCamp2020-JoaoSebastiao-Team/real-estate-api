@@ -2,12 +2,12 @@
   "name": "real-estate",
   "version": "1.0.0",
   "description": "Real estate website",
-  "main": "node dist/backend/lib/server.js",
+  "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon backend/lib/server.js",
-    "start:dev": "nodemon backend/lib/server.ts",
-    "dev": "nodemon backend/lib/server.ts"
+    "start": "node backend/server.js",
+    "start:dev": "nodemon backend/server.ts",
+    "dev": "nodemon backend/server.ts"
   },
   "repository": {
     "type": "git",
