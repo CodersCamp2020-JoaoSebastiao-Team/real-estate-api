@@ -1,6 +1,5 @@
 # CodersCamp 2020 | Projekt Zespołowy | Node.js
-Website for real estate announcement
-The best real estate website in the world!
+Internetowa platforma do handlu nieruchomościami.
 
 ## Zespół projektowy
 
