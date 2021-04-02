@@ -41,6 +41,22 @@ const schema = new Schema({
         },
 
     },
+
+    location: {
+        type: {
+            type: String,
+            default: 'Point'
+        },
+        coordinates: [{
+            type:Number,
+            requred: 'You must supply coordinates'
+        }],
+        address: {
+            type: String,
+            required: 'You must supply an address!'
+        }
+
+    },
     images: [String],
     status: {
         type: String,
