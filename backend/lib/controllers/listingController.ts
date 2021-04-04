@@ -19,11 +19,16 @@ export class ListingController {
     public create_listing(req: Request, res: Response) {
         if (req.body) {
             const listing_params: IListing = {
+                price: req.body.price,
+                livingSpace: req.body.livingSpace,
                 description: req.body.description,
                 country: req.body.country,
                 city: req.body.city,
                 street: req.body.street,
                 zipCode: req.body.zipCode,
+                location: [{
+                    address: req.body.address,
+                }],
                 images: req.body.images,
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
@@ -126,11 +131,14 @@ export class ListingController {
                     });
                     const listing_params: IListing = {
                         _id: req.params.id,
+                        price: req.body.price?  req.body.price : listing_data.price,
+                        livingSpace: req.body.space? req.body.space : listing_data.livingSpace,
                         description: req.body.description?req.body.description:listing_data.description,
                         country: req.body.country?req.body.country:listing_data.country,
                         city: req.body.city?req.body.city:listing_data.city,
                         street: req.body.street?req.body.street:listing_data.street,
                         zipCode: req.body.zipCode?req.body.zipCode:listing_data.zipCode,
+                        location: listing_data.location,
                         images: req.body.images?req.body.imagens:listing_data.images,
                         status: req.body.status?req.body.status:listing_data.status,
                         listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,

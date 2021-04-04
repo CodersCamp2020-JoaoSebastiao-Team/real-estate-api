@@ -5,6 +5,9 @@ import {ListingStatus, EstateTypes, ListingStatusTypes} from './enums'
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
+    price: Number,
+    livingSpace: Number,
+
     description: {
       type: String,
       required: true,
@@ -47,10 +50,12 @@ const schema = new Schema({
             type: String,
             default: 'Point'
         },
-        coordinates: [{
+        coordinates: {
             type:Number,
-            requred: 'You must supply coordinates'
-        }],
+            requred: 'You must supply coordinates',
+            lat: null,
+            lng: null
+        },
         address: {
             type: String,
             required: 'You must supply an address!'
