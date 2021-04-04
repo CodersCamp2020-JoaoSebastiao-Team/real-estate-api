@@ -13,10 +13,10 @@ import {UserType} from '../models/account/userType';
 export class AccountController {
     public async create_account(req: Request, res: Response) {
         if(!req.body){
-            return res.status(400).send("error")
+            return res.status(400).send({'error': 'something is wrong'})
         }
         const userExist = await accountSchema.findOne({email:req.body.email});
-        if(userExist) return res.status(400).send('User with this email already exists');
+        if(userExist) return res.status(400).send({'error': 'User with this email already exists'});
         
         const salt = await bcrypt.genSalt(8);
         const hashedPassword = await bcrypt.hash(req.body.password,salt);
@@ -45,7 +45,7 @@ export class AccountController {
                 'savedUser':savedUser
             }) 
         }catch(err){
-            res.status(400).send("errrrror "+err);
+            res.status(400).send({"error": err });
         }
     }
     public async login(req: Request, res: Response){
@@ -66,7 +66,7 @@ export class AccountController {
          
          const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
          if(!isPasswordCorrect){
-              return res.status(400).send('Password is wrong');
+              return res.status(400).send({'error':'Password is wrong'});
          }
 
         
@@ -88,19 +88,18 @@ export class AccountController {
             res.header('jwt',token)
             res.send(token);
          }
-         res.status(200).send("success");
+         res.status(200).send({"success": 'logged in'});
         }    
     }
 
     public async getAllAccount(req: Request, res: Response){
         const users = await accountSchema.find();
-        res.send(users);
+        res.send({users});
     }
     public async forgotPassword(req: Request, res: Response){
         //check if user exists
         const user:any = await accountSchema.findOne( {email: req.body.email} );
         if(!user) {
-            //req.flash('success', 'A password reset has been mailed to the account');
             return res.redirect('/api/login');
         }
         //set reset tokens and  expiry on their account
@@ -114,8 +113,6 @@ export class AccountController {
             subject: 'Password reset',
             resetURL
         });
-        //req.flash('success', 'A password reset has been mailed to the account');
-
         //redirect to login page
         res.redirect('/api/login');
     }
@@ -126,7 +123,6 @@ export class AccountController {
             resetPasswordExpires: { $gt: Date.now()}
         });
         if(!user) {
-            //req.flash('error', 'The token is invalid or it has expired');
             return res.redirect('/api/login');
         }
         //if there is a user with the token- show reset password form
@@ -140,7 +136,6 @@ export class AccountController {
             next();
             return;
         }
-        //req.flash("errors", "Passwords do not match");
         res.redirect('back');
     }
 
@@ -150,7 +145,6 @@ export class AccountController {
             resetPasswordExpires: { $gt: Date.now()}
         });
         if(!user) {
-            //req.flash('error', 'The token is invalid or it has expired');
             return res.redirect('/api/login');
         }
 
@@ -164,7 +158,6 @@ export class AccountController {
 
         await updatedAccount.save();
         res.send(updatedAccount);
-        //req.flash('success', 'Your password has been updated! You are logged in now.');
         res.redirect('/');
 
     }
