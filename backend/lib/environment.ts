@@ -20,7 +20,7 @@ class Environment {
         } else if (this.environment === Environments.qa_environment) {
             return 8083;
         } else {
-            return 3000;
+            return 6000;
         }
     }
 
@@ -37,4 +37,4 @@ class Environment {
     }
 }
 
-export default new Environment(Environments.local_environment);
+export default new Environment(Environments.dev_environment)

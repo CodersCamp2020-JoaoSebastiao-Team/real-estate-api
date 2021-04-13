@@ -34,7 +34,7 @@ export class ListingController {
                 estateType: req.body.estateType,
                 status: ListingStatus.available,
                 listingStatusType: req.body.listingStatusType,
-                author: req.body.user, //TO MA TU BYC? TAK
+                author: req.body.user, 
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
                     modified_by: "null",
@@ -72,17 +72,29 @@ export class ListingController {
     }
     private filters(req:Request, listing_filter: any){
         if (req.query.estateType) {
-            listing_filter = listing_filter["estateType"] = req.query.estateType
+            listing_filter["estateType"] = req.query.estateType
         }
         if(req.query.listingStatusType){
-            listing_filter = listing_filter["listingStatusType"] = req.query.listingStatusType
+            listing_filter["listingStatusType"] = req.query.listingStatusType
+        }
+        if(req.query.status){
+            listing_filter["status"] = req.query.status
+        }
+        if(req.query.street){
+            listing_filter["street"] = req.query.street
+        }
+        if(req.query.city){
+            listing_filter["city"] = req.query.city
+        }
+        if(req.query.country){
+            listing_filter["country"] = req.query.country
         }
         return listing_filter
     }
     public get_all_listings(req: Request, res: Response) {
         let listing_filter: any = { __v: 0};
         listing_filter = this.filters(req, listing_filter);
-
+        console.log(listing_filter)
         this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
             if (err || listing_data === null) {
                 mongoError(err, res);
