@@ -104,6 +104,17 @@ export class ListingController {
             }
         });
     }
+    public get_all_owner_listings(req: Request, res: Response) {
+        let listing_filter: any = { __v: 0, author: req.body.user._id};
+        this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
+            if (err || listing_data === null) {
+                mongoError(err, res);
+            }
+            else {
+                successResponse('get listings successfully', listing_data, res);
+            }
+        });
+    }
     public get_all_available_listings(req: Request, res: Response) {
         let listing_filter: any = { __v: 0, status: 'available'};
         listing_filter = this.filters(req, listing_filter);
