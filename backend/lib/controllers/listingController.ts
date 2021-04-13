@@ -24,6 +24,8 @@ export class ListingController {
         if (req.body) {
             const listing_params: IListing = {
                 description: req.body.description,
+                price: req.body.price,
+                livingSpace:req.body.livingSpace,
                 country: req.body.country,
                 city: req.body.city,
                 street: req.body.street,
@@ -119,6 +121,8 @@ export class ListingController {
                     const listing_params: IListing = {
                         _id: req.params.id,
                         description: req.body.description?req.body.description:listing_data.description,
+                        price: req.body.price,
+                        livingSpace:req.body.livingSpace,
                         country: req.body.country?req.body.country:listing_data.country,
                         city: req.body.city?req.body.city:listing_data.city,
                         street: req.body.street?req.body.street:listing_data.street,
