@@ -10,6 +10,10 @@ import { Listing } from '../routes/listings';
 import { Admin } from '../routes/admin';
 import { IUser } from '../models/reservations/model';
 
+// const express = require("express");
+const stripe = require("stripe");("");
+// const uuid = require("uuid/v4");
+import { uuid } from 'uuidv4';
 
 
 export class ListingController {
@@ -20,6 +24,8 @@ export class ListingController {
         if (req.body) {
             const listing_params: IListing = {
                 description: req.body.description,
+                price: req.body.price,
+                livingSpace:req.body.livingSpace,
                 country: req.body.country,
                 city: req.body.city,
                 street: req.body.street,
@@ -127,6 +133,8 @@ export class ListingController {
                     const listing_params: IListing = {
                         _id: req.params.id,
                         description: req.body.description?req.body.description:listing_data.description,
+                        price: req.body.price,
+                        livingSpace:req.body.livingSpace,
                         country: req.body.country?req.body.country:listing_data.country,
                         city: req.body.city?req.body.city:listing_data.city,
                         street: req.body.street?req.body.street:listing_data.street,
@@ -168,5 +176,26 @@ export class ListingController {
         } else {
             insufficientParameters(res);
         }
+    }
+
+    public listing_payment(req: Request, res: Response) {
+        const {listing, token} = req.body
+        console.log("RESERVATION", listing);
+        console.log("PRICE", listing.price);
+        const idempotencyKey = uuid();
+
+        return stripe.customers.create({
+            email: token.email,
+            source: token.id
+        }).then((customer:any) => {
+            stripe.charges.create({
+                amount: listing.price,
+                currency: 'pln',
+                customer: customer.id,
+                receipt_email: token.email,
+                description: `Purchase of ${listing.IListing.description}`
+            }, {idempotencyKey})
+        }).then((result:any) => res.status(200).json(result))
+        .try((err:any) => console.log(err))
     }
 }
