@@ -131,7 +131,7 @@ export class AdminController {
                         estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
                         author: req.body.user,
                         modification_notes: listing_data.modification_notes,
-                        bedrooms:""
+                        bedrooms:''
                     };
                     this.listing_service.updateListing(listing_params, (err: any) => {
                         if (err) {
