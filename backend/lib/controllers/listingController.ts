@@ -152,7 +152,7 @@ export class ListingController {
                         city: req.body.city?req.body.city:listing_data.city,
                         street: req.body.street?req.body.street:listing_data.street,
                         zipCode: req.body.zipCode?req.body.zipCode:listing_data.zipCode,
-                        images: req.body.images?req.body.imagens:listing_data.images,
+                        images: req.body.images?req.body.images:listing_data.images,
                         status: req.body.status?req.body.status:listing_data.status,
                         listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,
                         estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
