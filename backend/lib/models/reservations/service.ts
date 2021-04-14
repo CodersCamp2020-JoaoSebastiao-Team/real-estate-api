@@ -21,7 +21,7 @@ export default class ReservationService {
         var userReservations: number = 0;
         reservations.count(query, function(error, numOfDocs) {
             userReservations = numOfDocs;
-        }).then(element =>{
+        }).then(() =>{
         reservations.find(query, callback);
         return userReservations;
         });
