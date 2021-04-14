@@ -170,6 +170,12 @@ export class AccountController {
         res.redirect('/');
 
     }
+    public async getAllAgents(req: Request, res: Response){
+        const users = await accountSchema.find();
+        res.send(users.filter((user:any)=>{return user.userType==UserType.employee}));
+    }
+
+
 }
 
 
