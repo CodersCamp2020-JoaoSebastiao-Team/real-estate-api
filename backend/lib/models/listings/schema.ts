@@ -19,6 +19,10 @@ const schema = new Schema({
         type: Number,
         required: false,
     },
+    bedrooms: {
+        type: String,
+        required: false,
+    },
     country: {
         type: String,
         required: true,
