@@ -11,6 +11,18 @@ const schema = new Schema({
       minlength: 5,
       maxlength: 500
     },
+    price: {
+        type: Number,
+        required: false,
+    },
+    livingSpace: {
+        type: Number,
+        required: false,
+    },
+    bedrooms: {
+        type: String,
+        required: false,
+    },
     country: {
         type: String,
         required: true,

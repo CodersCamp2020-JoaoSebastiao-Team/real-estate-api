@@ -81,7 +81,8 @@ export class AccountController {
             res.header('jwt2',otherToken);
             res.send({
                 "jwt":token,
-                "jwt2":otherToken
+                "jwt2":otherToken,
+                'user_id':user._id
             })
          }
          else{
