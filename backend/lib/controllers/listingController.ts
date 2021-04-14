@@ -145,9 +145,9 @@ export class ListingController {
                     const listing_params: IListing = {
                         _id: req.params.id,
                         description: req.body.description?req.body.description:listing_data.description,
-                        price: req.body.price,
-                        livingSpace:req.body.livingSpace,
-                        bedrooms:req.body.bedrooms,
+                        price: req.body.price?req.body.price:listing_data.price,
+                        livingSpace:req.body.livingSpace?req.body.livingSpace:listing_data.livingSpace,
+                        bedrooms:req.body.bedrooms?req.body.bedrooms:listing_data.bedrooms,
                         country: req.body.country?req.body.country:listing_data.country,
                         city: req.body.city?req.body.city:listing_data.city,
                         street: req.body.street?req.body.street:listing_data.street,
