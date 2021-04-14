@@ -6,7 +6,7 @@ export interface IListing {
     _id?: String;
     price?: Number;
     livingSpace?: Number;
-    bedrooms: String;
+    bedrooms?: String;
     description: String;
     country: String;
     city: String;
