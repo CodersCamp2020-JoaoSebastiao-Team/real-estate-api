@@ -32,9 +32,10 @@ export class AdminController {
                 author: req.body.user, 
                 modification_notes: [{
                     modified_on: new Date(Date.now()),
-                    modified_by: "null",
+                    modified_by: 'null',
                     modification_note: 'New listing created'
-                }]
+                }],
+                bedrooms:''
             };
             this.listing_service.createListing(listing_params,
                 (err: any, listing_data: IListing) => {
@@ -129,7 +130,8 @@ export class AdminController {
                         listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,
                         estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
                         author: req.body.user,
-                        modification_notes: listing_data.modification_notes
+                        modification_notes: listing_data.modification_notes,
+                        bedrooms:""
                     };
                     this.listing_service.updateListing(listing_params, (err: any) => {
                         if (err) {
