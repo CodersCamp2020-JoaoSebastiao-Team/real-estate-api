@@ -11,6 +11,18 @@ const schema = new Schema({
       minlength: 5,
       maxlength: 500
     },
+    price: {
+        type: Number,
+        required: false,
+    },
+    livingSpace: {
+        type: Number,
+        required: false,
+    },
+    bedrooms: {
+        type: String,
+        required: false,
+    },
     country: {
         type: String,
         required: true,
@@ -48,11 +60,13 @@ const schema = new Schema({
     },
     listingStatusType: {
         type: String,
-        enum: ListingStatusTypes
+        enum: ListingStatusTypes,
+        required: true
     },
     estateType: {
       type: String,
-      enum: EstateTypes
+      enum: EstateTypes,
+      required: true
     },
     author: {
         type: Schema.Types.ObjectId, //mongoose.Schema.ObjectId

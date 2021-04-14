@@ -4,6 +4,9 @@ import {IUser} from '../reservations/model'
 
 export interface IListing {
     _id?: String;
+    price?: Number;
+    livingSpace?: Number;
+    bedrooms?: String;
     description: String;
     country: String;
     city: String;
@@ -19,6 +22,9 @@ export interface IListing {
 
 export const IListing = {
     _id: String,
+    price: Number,
+    livingSpaces: Number,
+    bedrooms: String,
     description: String,
     country: String,
     city: String,

@@ -79,12 +79,15 @@ export class AccountController {
             res.header('jwt2',otherToken);
             res.send({
                 "jwt":token,
-                "jwt2":otherToken
+                "jwt2":otherToken,
+                'user_id':user._id
             })
          }
          else{
             res.header('jwt',token)
-            res.send(token);
+            res.send({
+                "jwt":token
+            });
          }
          res.status(200).send("success");
         }    
@@ -166,6 +169,12 @@ export class AccountController {
         res.redirect('/');
 
     }
+    public async getAllAgents(req: Request, res: Response){
+        const users = await accountSchema.find();
+        res.send(users.filter((user:any)=>{return user.userType==UserType.employee}));
+    }
+
+
 }
 
 

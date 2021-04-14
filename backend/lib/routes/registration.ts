@@ -35,5 +35,9 @@ export class Registration {
         app.post('/api/reset/:token', this.account_controller.confirmedPassword,  async (req:Request, res:Response)=>{  
           this.account_controller.updatePassword(req,res);
         });
+
+        app.get('/api/agents', async (req:Request, res:Response)=>{  
+          await this.account_controller.getAllAgents(req, res);
+       });
     }
 }

@@ -10,6 +10,10 @@ import { Listing } from '../routes/listings';
 import { Admin } from '../routes/admin';
 import { IUser } from '../models/reservations/model';
 
+// const express = require("express");
+const stripe = require("stripe");("");
+// const uuid = require("uuid/v4");
+import { uuid } from 'uuidv4';
 
 
 export class ListingController {
@@ -20,6 +24,9 @@ export class ListingController {
         if (req.body) {
             const listing_params: IListing = {
                 description: req.body.description,
+                price: req.body.price,
+                livingSpace:req.body.livingSpace,
+                bedrooms:req.body.bedrooms,
                 country: req.body.country,
                 city: req.body.city,
                 street: req.body.street,
@@ -66,17 +73,40 @@ export class ListingController {
     }
     private filters(req:Request, listing_filter: any){
         if (req.query.estateType) {
-            listing_filter = listing_filter["estateType"] = req.query.estateType
+            listing_filter["estateType"] = req.query.estateType
         }
         if(req.query.listingStatusType){
-            listing_filter = listing_filter["listingStatusType"] = req.query.listingStatusType
+            listing_filter["listingStatusType"] = req.query.listingStatusType
+        }
+        if(req.query.status){
+            listing_filter["status"] = req.query.status
+        }
+        if(req.query.street){
+            listing_filter["street"] = req.query.street
+        }
+        if(req.query.city){
+            listing_filter["city"] = req.query.city
+        }
+        if(req.query.country){
+            listing_filter["country"] = req.query.country
         }
         return listing_filter
     }
     public get_all_listings(req: Request, res: Response) {
         let listing_filter: any = { __v: 0};
         listing_filter = this.filters(req, listing_filter);
-
+        console.log(listing_filter)
+        this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
+            if (err || listing_data === null) {
+                mongoError(err, res);
+            }
+            else {
+                successResponse('get listings successfully', listing_data, res);
+            }
+        });
+    }
+    public get_all_owner_listings(req: Request, res: Response) {
+        let listing_filter: any = { __v: 0, author: req.body.user._id};
         this.listing_service.findAllListings(listing_filter, (err: any, listing_data: IListing) => {
             if (err || listing_data === null) {
                 mongoError(err, res);
@@ -115,11 +145,14 @@ export class ListingController {
                     const listing_params: IListing = {
                         _id: req.params.id,
                         description: req.body.description?req.body.description:listing_data.description,
+                        price: req.body.price?req.body.price:listing_data.price,
+                        livingSpace:req.body.livingSpace?req.body.livingSpace:listing_data.livingSpace,
+                        bedrooms:req.body.bedrooms?req.body.bedrooms:listing_data.bedrooms,
                         country: req.body.country?req.body.country:listing_data.country,
                         city: req.body.city?req.body.city:listing_data.city,
                         street: req.body.street?req.body.street:listing_data.street,
                         zipCode: req.body.zipCode?req.body.zipCode:listing_data.zipCode,
-                        images: req.body.images?req.body.imagens:listing_data.images,
+                        images: req.body.images?req.body.images:listing_data.images,
                         status: req.body.status?req.body.status:listing_data.status,
                         listingStatusType: req.body.listingStatusType?req.body.listingStatusType:listing_data.listingStatusType,
                         estateType: req.body.estateType?req.body.estateType:listing_data.estateType,
@@ -156,5 +189,26 @@ export class ListingController {
         } else {
             insufficientParameters(res);
         }
+    }
+
+    public listing_payment(req: Request, res: Response) {
+        const {listing, token} = req.body
+        console.log("RESERVATION", listing);
+        console.log("PRICE", listing.price);
+        const idempotencyKey = uuid();
+
+        return stripe.customers.create({
+            email: token.email,
+            source: token.id
+        }).then((customer:any) => {
+            stripe.charges.create({
+                amount: listing.price,
+                currency: 'pln',
+                customer: customer.id,
+                receipt_email: token.email,
+                description: `Purchase of ${listing.IListing.description}`
+            }, {idempotencyKey})
+        }).then((result:any) => res.status(200).json(result))
+        .try((err:any) => console.log(err))
     }
 }

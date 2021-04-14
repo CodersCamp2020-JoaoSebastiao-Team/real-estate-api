@@ -9,7 +9,7 @@ export class Listing {
 
     public route(app: Application) {
 
-        app.post('/api/listing', isLoggedIn,  (req: Request, res: Response) => {
+        app.post('/api/listing', isAuthor,  (req: Request, res: Response) => {
             this.listing_controller.create_listing(req, res);
         });
 
@@ -24,7 +24,9 @@ export class Listing {
         app.get('/api/listing/:id', (req: Request, res: Response) => {
             this.listing_controller.get_listing(req, res);
         });
-
+        app.get('/api/listings', isAuthor, (req: Request, res: Response) => {
+            this.listing_controller.get_all_owner_listings(req, res);
+        });
         app.put('/api/listing/:id', isAuthor, (req: Request, res: Response) => {
             this.listing_controller.update_listing(req, res);
         });
