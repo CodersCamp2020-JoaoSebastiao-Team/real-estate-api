@@ -1,5 +1,5 @@
 {
-  "name": "real-estate",
+  "name": "real-estate-api",
   "version": "1.0.0",
   "description": "Real estate website",
   "main": "node dist/backend/lib/server.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CodersCamp2020-JoaoSebastiao-Team/real-estate.git"
+    "url": "git+https://github.com/CodersCamp2020-JoaoSebastiao-Team/real-estate-api.git"
   },
   "keywords": [
     "JS",
@@ -23,9 +23,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CodersCamp2020-JoaoSebastiao-Team/real-estate/issues"
+    "url": "https://github.com/CodersCamp2020-JoaoSebastiao-Team/real-estate-api/issues"
   },
-  "homepage": "https://github.com/CodersCamp2020-JoaoSebastiao-Team/real-estate#readme",
+  "homepage": "https://github.com/CodersCamp2020-JoaoSebastiao-Team/real-estate-api#readme",
   "dependencies": {
     "@types/es6-promisify": "^6.0.0",
     "@types/nodemailer": "^6.4.1",
