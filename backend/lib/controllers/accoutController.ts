@@ -86,7 +86,8 @@ export class AccountController {
          else{
             res.header('jwt',token)
             res.send({
-                "jwt":token
+                "jwt":token,
+                'user_id':user._id
             });
          }
          res.status(200).send("success");
