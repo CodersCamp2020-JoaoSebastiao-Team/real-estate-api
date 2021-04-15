@@ -90,6 +90,18 @@ export class ListingController {
         if(req.query.country){
             listing_filter["country"] = req.query.country
         }
+        if(req.query.max_price){
+            listing_filter['price'] = {... listing_filter['price'], $lte: req.query.max_price}
+        }
+        if(req.query.min_price){
+            listing_filter['price'] = {... listing_filter['price'], $gte: req.query.min_price}
+        }
+        if(req.query.min_space){
+            listing_filter['livingSpace'] = {... listing_filter['livingSpace'], $gte: req.query.min_space}
+        }
+        if(req.query.max_space){
+            listing_filter['livingSpace'] = {... listing_filter['livingSpace'], $lte: req.query.max_space}
+        }
         return listing_filter
     }
     public get_all_listings(req: Request, res: Response) {
