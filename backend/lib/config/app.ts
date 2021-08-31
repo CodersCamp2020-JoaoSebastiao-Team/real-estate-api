@@ -16,8 +16,8 @@ dotenv.config();
 class App {
    public app: express.Application;
    //'mongodb+srv://test:test@cluster0.6z8gs.mongodb.net/Cluster0
-   public mongoUrl: string = 'mongodb+srv://test:test@cluster0.6z8gs.mongodb.net/' + environment.getDBName();
-
+   public mongoUrl: string = "mongodb+srv://test:test@cluster0.6z8gs.mongodb.net/real_estate?retryWrites=true&w=majority";
+   //"mongodb+srv://test:test@cluster0.6z8gs.mongodb.net/real_estate?retryWrites=true&w=majority"
    private test_routes: TestRoutes = new TestRoutes();
    private reservation: Reservation = new Reservation();
    private office: Office = new Office();
